@@ -1,4 +1,5 @@
 import React from "react";
+import "./App.css";
 import { Route } from "react-router-dom";
 import HomePage from "./Components/Pages/HomePage";
 import ChatPage from "./Components/Pages/ChatPage";
