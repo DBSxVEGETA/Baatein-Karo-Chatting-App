@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.css";
 import { Route } from "react-router-dom";
-import HomePage from "./Components/Pages/HomePage";
-import ChatPage from "./Components/Pages/ChatPage";
+import HomePage from "./Pages/HomePage";
+import ChatPage from "./Pages/ChatPage";
 
 const App = () => {
   return (
