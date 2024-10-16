@@ -7,6 +7,20 @@ const getAllUsers = asyncHandler(async (req, res) => {
   return res.json(users);
 });
 
+const getUser = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    res.status(400);
+    throw new Error("Please provide appropriate email");
+  }
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User with this email does not exist");
+  }
+  res.status(200).json(user);
+});
+
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
 
@@ -41,7 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const authUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -66,4 +80,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllUsers, registerUser, authUser };
+module.exports = { getAllUsers, getUser, registerUser, loginUser };
