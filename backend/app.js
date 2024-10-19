@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const { chats } = require("./data/data");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const cookieParser = require("cookie-parser");
 
@@ -16,6 +17,7 @@ app.use(express.json()); // to accept json data
 app.use(cookieParser());
 
 app.use("/api/user", userRoutes);
+app.use("/api/user", chatRoutes);
 
 // app.use(notFound);
 // app.use(errorHandler);

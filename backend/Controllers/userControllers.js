@@ -7,6 +7,20 @@ const getAllUsers = asyncHandler(async (req, res) => {
   return res.json(users);
 });
 
+const searchUsers = asyncHandler(async (req, res) => {
+  const input = req.query.search
+    ? {
+        $or: [{ name: { $regex: req.query.search, $options: "i" } }, { email: { $regex: req.query.search, $options: "i" } }], // mongodb query to search the users which contain the input fields using regular expression
+      }
+    : {};
+
+  const user = await User.find(input).find({ _id: { $ne: req.user._id } }); // finding all the users that has the input field in their name or email only the user which is logged in will not be inlcuded.
+  if (!user) {
+    return res.status(404).json({ message: "Users with this field not found" });
+  }
+  res.send(user);
+});
+
 const getLoggedInUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
   if (!id) {
@@ -80,4 +94,4 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllUsers, getLoggedInUser, registerUser, loginUser };
+module.exports = { getAllUsers, searchUsers, getLoggedInUser, registerUser, loginUser };
