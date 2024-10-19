@@ -1,28 +1,40 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema(
   {
     name: {
-      type: "String",
+      type: String,
       required: true,
     },
     email: {
-      type: "String",
+      type: String,
       required: true,
       unique: true,
     },
     password: {
-      type: "String",
+      type: String,
       required: true,
     },
     picture: {
-      type: "String",
+      type: String,
       default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
   },
   { timeStamps: true, versionKey: false }
 );
+
+userSchema.methods.generateToken = function () {
+  const payload = {
+    id: this._id,
+    name: this.name,
+  };
+
+  return jwt.sign({ payload }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+};
 
 userSchema.methods.matchPassword = async function (enteredpassword) {
   return await bcrypt.compare(enteredpassword, this.password);

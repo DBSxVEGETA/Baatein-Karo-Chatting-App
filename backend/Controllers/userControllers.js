@@ -1,22 +1,22 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
-const generateToken = require("../config/generateToken");
+// const generateToken = require("../config/generateToken");
 
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
   return res.json(users);
 });
 
-const getUser = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-  if (!email) {
+const getLoggedInUser = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  if (!id) {
     res.status(400);
-    throw new Error("Please provide appropriate email");
+    throw new Error("Please provide appropriate id");
   }
-  const user = await User.findOne({ email });
+  const user = await User.findById(id);
   if (!user) {
     res.status(404);
-    throw new Error("User with this email does not exist");
+    throw new Error("User with this id does not exist");
   }
   res.status(200).json(user);
 });
@@ -59,11 +59,11 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  const token = generateToken(user._id);
+  const token = user.generateToken();
 
   if (user && (await user.matchPassword(password))) {
     res
-      .cookie("Token", token, {
+      .cookie("token", token, {
         httpOnly: true,
         secure: true,
         maxAge: 3600000,
@@ -80,4 +80,4 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllUsers, getUser, registerUser, loginUser };
+module.exports = { getAllUsers, getLoggedInUser, registerUser, loginUser };
