@@ -10,7 +10,7 @@ const chatSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    user: [
+    users: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -25,7 +25,7 @@ const chatSchema = mongoose.Schema(
       ref: "User",
     },
   },
-  { timeStamps: true, versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const Chat = mongoose.model("Chat", chatSchema);

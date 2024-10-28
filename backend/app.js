@@ -17,7 +17,7 @@ app.use(express.json()); // to accept json data
 app.use(cookieParser());
 
 app.use("/api/user", userRoutes);
-app.use("/api/user", chatRoutes);
+app.use("/api/chat", chatRoutes);
 
 // app.use(notFound);
 // app.use(errorHandler);
