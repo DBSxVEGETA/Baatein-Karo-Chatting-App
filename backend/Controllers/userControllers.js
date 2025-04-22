@@ -14,7 +14,7 @@ const searchUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const user = await User.find(input).find({ _id: { $ne: req.user._id } }); // finding all the users that has the input field in their name or email only the user which is logged in will not be inlcuded.
+  const user = await User.find(input).find({ _id: { $ne: req.user._id } }); // finding all the users that has the input field in their name or email only the user which is logged in will not be included.
   if (!user) {
     return res.status(404).json({ message: "Users with this field not found" });
   }
@@ -61,7 +61,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       message: "User created successfully",
       user,
-      token: generateToken(user._id),
+      token: user.generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -71,9 +71,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   const user = await User.findOne({ email });
 
-  const token = user.generateToken();
+  const token = user.generateToken(user._id);
 
   if (user && (await user.matchPassword(password))) {
     res

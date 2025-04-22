@@ -5,8 +5,8 @@ const notFound = (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  const statuscode = res.statuscode === 200 ? 500 : res.statuscode;
-  res.statuscode(statuscode);
+  const statuscode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statuscode);
   res.json({
     message: err.message,
     stack: process.env.NODE_ENV === "Production" ? null : err.stack,
