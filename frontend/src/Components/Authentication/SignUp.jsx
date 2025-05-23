@@ -3,8 +3,9 @@ import { Input } from "@chakra-ui/react";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
 import React from "react";
-// import { useToast } from "@chakra-ui/react";
+import { toaster } from "../ui/toaster";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
@@ -15,7 +16,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
-  // const toast = useToast();
+  const navigate = useNavigate();
   // const history = useHistory();
 
   const handleClickForPassword = () => setShow(!show);
@@ -24,13 +25,13 @@ const SignUp = () => {
   const postDetails = (pics) => {
     setLoading(true);
     if (pics === undefined) {
-      // toast({
-      //   title: "Please select and image!",
-      //   status: "warning",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
+      toaster.warning({
+        title: "Please select an image!",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
       return;
     }
 
@@ -54,13 +55,13 @@ const SignUp = () => {
           setLoading(false);
         });
     } else {
-      // toast({
-      //   title: "Please select and image!",
-      //   status: "warning",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
+      toaster.warning({
+        title: "Please select an image!",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
       setLoading(false);
       return;
     }
@@ -69,24 +70,24 @@ const SignUp = () => {
   const submitHandler = async () => {
     setLoading(true);
     if (!name || !email || !password || !confirmPassword) {
-      // toast({
-      //   title: "Please fill all the details",
-      //   status: "warning",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
+      toaster.warning({
+        title: "Please fill all the details",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
       setLoading(false);
       return;
     }
     if (password !== confirmPassword) {
-      // toast({
-      //   title: "Passwords does not match",
-      //   status: "warning",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: bottom,
-      // });
+      toaster.warning({
+        title: "Passwords does not match",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
       setLoading(false);
       return;
     }
@@ -99,26 +100,26 @@ const SignUp = () => {
       };
 
       const { data } = await axios.post("http://localhost:5000/api/user/register", { name, email, password, pic }, config);
-      // toast({
-      //   title: "Registration Successful",
-      //   status: "success",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
+      toaster.success({
+        title: "Successfully registered the user",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      // history.push("/chats");
+      navigate("/chats");
     } catch (error) {
-      // toast({
-      //   title: "Error Occured!",
-      //   description: error.response?.data?.message || error.message || "Something went wrong",
-      //   status: "error",
-      //   duration: 5000,
-      //   isClosable: true,
-      //   position: "bottom",
-      // });
+      toaster.error({
+        title: "Error Occured!",
+        description: error.response?.data?.message || error.message || "Something went wrong",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
       setLoading(false);
     }
   };
@@ -128,38 +129,46 @@ const SignUp = () => {
       <Fieldset.Root>
         <Fieldset.Content>
           <Field.Root id="firstName" isrequired="true">
-            <Field.Label fontSize={13}>Name</Field.Label>
-            <Input placeholder="Enter your name" h="25px" fontSize={13} onChange={(e) => setName(e.target.value)} />
+            <Field.Label fontSize="md">
+              Name <span style={{ color: "red" }}>*</span>
+            </Field.Label>
+            <Input required placeholder="Enter your name" fontSize="md" onChange={(e) => setName(e.target.value)} />
           </Field.Root>
 
           <Field.Root id="email" isrequired="true">
-            <Field.Label fontSize={13}>Email</Field.Label>
-            <Input placeholder="Enter your email" h="25px" fontSize={13} onChange={(e) => setEmail(e.target.value)} />
+            <Field.Label fontSize="md">
+              Email<span style={{ color: "red" }}>*</span>
+            </Field.Label>
+            <Input required placeholder="Enter your email" fontSize="md" onChange={(e) => setEmail(e.target.value)} />
           </Field.Root>
 
           <Field.Root id="password" isrequired="true">
-            <Field.Label fontSize={13}>Password</Field.Label>
+            <Field.Label fontSize="md">
+              Password<span style={{ color: "red" }}>*</span>
+            </Field.Label>
             <Group attached w="full">
-              <Input type={show ? "text" : "password"} placeholder="Enter your password" h="25px" fontSize={13} onChange={(e) => setPassword(e.target.value)} />
-              <Button h="25px" w="10px" fontSize={13} backgroundColor="#696969" color="white" onClick={handleClickForPassword}>
+              <Input required type={show ? "text" : "password"} placeholder="Enter your password" fontSize="md" onChange={(e) => setPassword(e.target.value)} />
+              <Button w="10px" fontSize="md" backgroundColor="gray" onClick={handleClickForPassword}>
                 {show ? <LuEyeClosed /> : <LuEye />}
               </Button>
             </Group>
           </Field.Root>
           <Field.Root id="confirmPassword" isrequired="true">
-            <Field.Label fontSize={13}>Confirm Password</Field.Label>
+            <Field.Label fontSize="md">
+              Confirm Password<span style={{ color: "red" }}>*</span>
+            </Field.Label>
             <Group attached w="full">
-              <Input type={show ? "text" : "password"} placeholder="Confirm password" h="25px" fontSize={13} onChange={(e) => setConfirmPassword(e.target.value)} />
-              <Button h="25px" w="10px" fontSize={13} backgroundColor="#696969" color="white" onClick={handleClickForConfirmPassword}>
+              <Input required type={show ? "text" : "password"} placeholder="Confirm password" fontSize="md" onChange={(e) => setConfirmPassword(e.target.value)} />
+              <Button w="10px" fontSize="md" backgroundColor="gray" onClick={handleClickForConfirmPassword}>
                 {show ? <LuEyeClosed /> : <LuEye />}
               </Button>
             </Group>
           </Field.Root>
           <Field.Root id="pic">
-            <Field.Label fontSize={13}>Upload your picture</Field.Label>
-            <Input type="file" p="0" h="25px" fontSize={13} accept="image/*" onChange={(e) => postDetails(e.target.files[0])} />
+            <Field.Label fontSize="md">Upload your picture</Field.Label>
+            <Input type="file" p="1.5" fontSize="md" accept="image/*" onChange={(e) => postDetails(e.target.files[0])} />
           </Field.Root>
-          <Button w="100%" h="25px" fontSize={13} bg="dodgerBlue" onClick={submitHandler} isLoading={loading}>
+          <Button w="100%" fontSize="md" bg="dodgerBlue" color="white" onClick={submitHandler} isLoading={loading}>
             Sign Up
           </Button>
         </Fieldset.Content>

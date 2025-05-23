@@ -15,20 +15,20 @@ const HomePage = () => {
   }, [navigate]);
 
   return (
-    <Container maxW="lg" centerContent>
-      <Box d="flex" justifyContent="center" bg="white" w="100%" m="30px 0 15px 0" borderRadius="10px">
-        <Text fontSize="3xl" fontFamily="Work Sans" textAlign="center" color="black">
+    <Container maxW="xl" centerContent>
+      <Box d="flex" justifyContent="center" bg="white" w="100%" m="30px 0 15px 0" p="2" borderRadius="10px">
+        <Text fontSize="4xl" fontFamily="Work Sans" textAlign="center" color="black">
           Baatein Karo
         </Text>
       </Box>
       <Box bg="white" p="3" w="100%" borderRadius="10px">
         <Tabs.Root variant="plain" colorScheme="blue">
           <Tabs.List bg="white" p="0" width="100%" borderRadius="20px">
-            <Tabs.Trigger value="login" width="50%" color="black">
+            <Tabs.Trigger value="login" width="50%" fontSize="md" color="black">
               <LuLogIn />
               Login
             </Tabs.Trigger>
-            <Tabs.Trigger value="signup" width="50%" color="black">
+            <Tabs.Trigger value="signup" width="50%" fontSize="md" color="black">
               <LuUser />
               SignUp
             </Tabs.Trigger>
@@ -41,34 +41,6 @@ const HomePage = () => {
             <SignUp />
           </Tabs.Content>
         </Tabs.Root>
-        {/* <Tabs.Root variant="soft-rounded" colorScheme="blue">
-          <Tabs.List>
-            <Tabs.Trigger w="50%">Login</Tabs.Trigger>
-            <Tabs.Trigger w="50%">Sign Up</Tabs.Trigger>
-          </Tabs.List>
-          <TabPanels>
-            <TabPanel>
-              <Login />
-            </TabPanel>
-            <TabPanel>
-              <SignUp />
-            </TabPanel>
-          </TabPanels>
-        </Tabs.Root> */}
-        {/* <Tabs variant="soft-rounded" colorScheme="blue">
-          <TabList>
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Login />
-            </TabPanel>
-            <TabPanel>
-              <SignUp />
-            </TabPanel>
-          </TabPanels>
-        </Tabs> */}
       </Box>
     </Container>
   );

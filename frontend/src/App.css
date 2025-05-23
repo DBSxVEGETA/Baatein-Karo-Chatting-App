@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
 
 .App {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
-  background-color: #ccccff;
-  /* background-image: url("./chat-background.jpg");
+  flex-direction: column;
+  /* background-color: #ccccff; */
+  background-image: url("/chat-app-background.png");
   background-size: cover;
-  background-position: center; */
+  background-position: center;
+  overflow: hidden;
 }

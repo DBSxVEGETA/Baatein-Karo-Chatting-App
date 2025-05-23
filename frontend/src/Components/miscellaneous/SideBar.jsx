@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Box, Tooltip, Button, Text, Menu, MenuButton, Avatar } from "@chakra-ui/react";
+import { Box, Button, Container, Text } from "@chakra-ui/react";
+import { Tooltip } from "../../Components/ui/tooltip";
+import { IoSearch } from "react-icons/io5";
 import { ChatState } from "../../Context/ChatProvider";
+import { LuUserRound } from "react-icons/lu";
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
@@ -11,36 +14,22 @@ const SideBar = () => {
   const { user } = ChatState();
 
   return (
-    <>
-      <Box d="flex" justifyContent="space-between" alignItems="center" bg="white" w="100%" p="5px 10px 5px 10px" borderWidth="5px">
-        <Tooltip label="Search user to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <Text d={{ base: "none", md: "flex" }} px="4">
+    <Box display="flex" alignItems="center" justifyContent="center" mt="10px">
+      <Box display="flex" justifyContent="space-between" alignItems="center" bg="white" borderRadius="15px" w="97%" p="5px 10px 5px 10px" borderWidth="2px">
+        <Tooltip showArrow content="Search user to chat" openDelay={200} closeDelay={100}>
+          <Button variant="ghost" borderRadius="15px" bg="white" _hover={{ bg: "#aed6f1", fontcolor: "white" }}>
+            <IoSearch color="black" />
+            <Text display={{ base: "none", md: "flex" }} px="2" color="black" fontSize="md">
               Search User
             </Text>
           </Button>
         </Tooltip>
 
-        <Text fontSize="2xl" fontFamily="work sans">
+        <Text fontSize="2xl" fontFamily="work sans" color="black">
           Baatein-Karo
         </Text>
-
-        <div>
-          <Menu>
-            <MenuButton p={1}>
-              <i class="fa-solid fa-bell" style={{ fontSize: 18, margin: 8 }}></i>
-            </MenuButton>
-            {/* <MenuList></MenuList> */}
-            <Menu>
-              <MenuButton as={Button}>
-                <Avatar size="sm" cursor="pointer" />
-              </MenuButton>
-            </Menu>
-          </Menu>
-        </div>
       </Box>
-    </>
+    </Box>
   );
 };
 
