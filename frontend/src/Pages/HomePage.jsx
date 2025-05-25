@@ -17,7 +17,7 @@ const HomePage = () => {
   return (
     <Container maxW="xl" centerContent>
       <Box d="flex" justifyContent="center" bg="white" w="100%" m="30px 0 15px 0" p="2" borderRadius="10px">
-        <Text fontSize="4xl" fontFamily="Work Sans" textAlign="center" color="black">
+        <Text fontSize="4xl" fontFamily="Work Sans" textAlign="center" color="black" fontWeight="semibold">
           Baatein Karo
         </Text>
       </Box>
