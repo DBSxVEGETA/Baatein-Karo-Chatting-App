@@ -39,7 +39,7 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post("http://localhost:5000/api/user/login", { email, password }, config);
+      const { data } = await axios.post("http://localhost:5000/api/user/login", { email, password }, { ...config, withCredentials: true });
       toaster.success({
         title: "User logged in successfully",
         duration: 5000,

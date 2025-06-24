@@ -50,7 +50,7 @@ const NavBar = () => {
                     <Avatar.Image src={user?.user.pic} />
                   </Avatar.Root>
                 </Button>
-                <IconButton variant="ghost" color="black" borderRadius="15px" bg="white" _hover={{ bg: "#aed6f1" }}>
+                <IconButton variant="ghost" color="black" borderRadius="15px" bg="white" _hover={{ bg: "#9a9bfc" }}>
                   <LuChevronDown />
                 </IconButton>
               </ButtonGroup>

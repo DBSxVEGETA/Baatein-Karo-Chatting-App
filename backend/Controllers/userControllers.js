@@ -80,7 +80,9 @@ const loginUser = asyncHandler(async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        // secure: true,
+        secure: false, // <-- change this to false for local dev
+        sameSite: "lax", // recommended for local dev
         maxAge: 3600000,
       })
       .status(201)
