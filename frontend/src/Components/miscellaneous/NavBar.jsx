@@ -6,6 +6,8 @@ import { ChatState } from "../../Context/ChatProvider";
 import { useNavigate } from "react-router-dom";
 import ProfileDialog from "./ProfileDialog";
 import SearchDrawer from "./SearchDrawer";
+import toaster from "../ui/toaster";
+import axiosApi from "../../config/axiosConfig";
 
 const NavBar = () => {
   const [search, setSearch] = useState("");
@@ -16,9 +18,28 @@ const NavBar = () => {
 
   const { user } = ChatState();
 
-  const logoutHanlder = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
+  const logoutHanlder = async () => {
+    try {
+      await axiosApi.get("http://localhost:5000/api/user/logout");
+      localStorage.removeItem("userInfo");
+      navigate("/");
+      toaster.success({
+        title: "User logged out successfully",
+        duration: "5000",
+        action: {
+          label: "X",
+        },
+      });
+    } catch (error) {
+      toaster.error({
+        title: "Error Occurred",
+        description: error.response?.data?.message || error.message || "Something went wrong",
+        duration: 5000,
+        action: {
+          label: "X",
+        },
+      });
+    }
   };
 
   return (

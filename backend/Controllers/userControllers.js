@@ -97,4 +97,21 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllUsers, searchUsers, getLoggedInUser, registerUser, loginUser };
+const logoutUser = (req, res) => {
+  try {
+    console.log("inside logout user backend");
+    res
+      .clearCookie("token", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false, // true in production
+      })
+      .status(200)
+      .json({ message: "User logged out successfully" });
+  } catch (error) {
+    console.log("insdie catch logout user ");
+    return res.status(400).json(error.message);
+  }
+};
+
+module.exports = { getAllUsers, searchUsers, getLoggedInUser, registerUser, loginUser, logoutUser };

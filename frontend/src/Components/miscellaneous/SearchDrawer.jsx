@@ -5,7 +5,7 @@ import { Tooltip } from "../ui/tooltip";
 import { IoSearch } from "react-icons/io5";
 import { toaster } from "../ui/toaster";
 import ChatLoading from "../ChatLoading";
-import axios from "axios";
+import axiosApi from "../../config/axiosConfig";
 import UserListItem from "../UserAvatar/UserListItem";
 
 const SearchDrawer = () => {
@@ -35,11 +35,7 @@ const SearchDrawer = () => {
       //   },
       // };
 
-      const config = {
-        withCredentials: true,
-      };
-
-      const { data } = await axios.get(`http://localhost:5000/api/user/searchUsers?search=${search}`, config);
+      const { data } = await axiosApi.get(`http://localhost:5000/api/user/searchUsers?search=${search}`);
 
       setLoading(false);
       setSearchResult(data);
@@ -63,10 +59,9 @@ const SearchDrawer = () => {
         headers: {
           "Content-type": "application/json",
         },
-        withCredentials: true,
       };
 
-      const { data } = await axios.post("http://localhost:5000/api/chat", { userId }, config);
+      const { data } = await axiosApi.post("http://localhost:5000/api/chat", { userId }, config);
 
       if (!chats.find((chat) => chat._id === data._id)) setChats([data, ...chats]);
 

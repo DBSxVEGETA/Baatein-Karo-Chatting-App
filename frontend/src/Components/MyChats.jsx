@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { toaster } from "../Components/ui/toaster";
-import axios from "axios";
+import axiosApi from "../config/axiosConfig";
 import { Box, Button, Stack } from "@chakra-ui/react";
 import { GrGroup } from "react-icons/gr";
 import ChatLoading from "./ChatLoading";
@@ -13,11 +13,7 @@ const MyChats = () => {
 
   const fetchChats = async () => {
     try {
-      const config = {
-        withCredentials: true,
-      };
-
-      const { data } = await axios.get("http://localhost:5000/api/chat", config);
+      const { data } = await axiosApi.get("http://localhost:5000/api/chat");
       setChats(data);
     } catch (error) {
       toaster.error({

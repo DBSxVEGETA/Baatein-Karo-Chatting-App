@@ -4,9 +4,8 @@ import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
 import React from "react";
 import { toaster } from "../ui/toaster";
-import axios from "axios";
+import axiosApi from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -99,7 +98,7 @@ const SignUp = () => {
         },
       };
 
-      const { data } = await axios.post("http://localhost:5000/api/user/register", { name, email, password, pic }, config);
+      const { data } = await axiosApi.post("http://localhost:5000/api/user/register", { name, email, password, pic }, config);
       toaster.success({
         title: "Successfully registered the user",
         duration: 5000,

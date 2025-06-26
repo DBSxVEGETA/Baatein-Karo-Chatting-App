@@ -3,7 +3,7 @@ import { toaster } from "../ui/toaster";
 import { Field, Fieldset, Input, Button, Group } from "@chakra-ui/react";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import React, { useState } from "react";
-import axios from "axios";
+import axiosApi from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -39,7 +39,7 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post("http://localhost:5000/api/user/login", { email, password }, { ...config, withCredentials: true });
+      const { data } = await axiosApi.post("http://localhost:5000/api/user/login", { email, password }, { ...config });
       toaster.success({
         title: "User logged in successfully",
         duration: 5000,
