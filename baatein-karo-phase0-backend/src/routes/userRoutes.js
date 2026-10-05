@@ -6,7 +6,7 @@ const { getAllUsers, searchUsers, getLoggedInUser, registerUser, loginUser, logo
 
 router.get("/", getAllUsers);
 router.get("/searchUsers", jwtVerify, searchUsers);
-router.get("/getUser", jwtVerify, getLoggedInUser);
+router.get("/me", jwtVerify, getLoggedInUser);
 router.route("/register").post(registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);

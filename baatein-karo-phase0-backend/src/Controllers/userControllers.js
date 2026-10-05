@@ -41,6 +41,8 @@ const getLoggedInUser = asyncHandler(async (req, res) => {
     throw new Error("User with this id does not exist");
   }
 
+  res.set("cache-control", "no-store");
+
   return res.status(200).json(user);
 });
 
