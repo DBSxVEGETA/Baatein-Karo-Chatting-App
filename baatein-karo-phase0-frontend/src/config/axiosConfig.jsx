@@ -5,16 +5,16 @@ const axiosApi = axios.create({
   withCredentials: true,
 });
 
-axiosApi.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("userInfo");
-      window.location.href = "/";
-    }
+// axiosApi.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response?.status === 401) {
+//       localStorage.removeItem("userInfo");
+//       window.location.href = "/";
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axiosApi;
