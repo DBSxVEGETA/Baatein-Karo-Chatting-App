@@ -3,14 +3,15 @@ import { toaster } from "../ui/toaster";
 import { Field, Fieldset, Input, Button, Group } from "@chakra-ui/react";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import React, { useState } from "react";
-import axiosApi from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();  
 
   const [show, setShow] = useState(false);
 
@@ -33,13 +34,8 @@ const Login = () => {
     }
 
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+      await login (email, password);
 
-      const { data } = await axiosApi.post("/user/login", { email, password }, { ...config });
       toaster.success({
         title: "User logged in successfully",
         duration: 5000,
@@ -48,7 +44,6 @@ const Login = () => {
         },
       });
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/chats");
     } catch (error) {

@@ -25,7 +25,20 @@ const AuthProvider = ({children}) => {
         getCurrentUser();
     },[])
 
-    return <AuthContext.Provider value={{user, setUser, loading, setLoading}}>{children}</AuthContext.Provider>
+    const login = async(email, password)=>{
+        try{
+            await axiosApi.post("/user/login", {email, password});
+            const response = await axiosApi.get("/user/me");
+            
+            setUser(response.data)
+        }
+        catch(error){
+            setUser(null);
+            throw error
+        }
+    }
+
+    return <AuthContext.Provider value={{user, setUser, loading, setLoading, login}}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = ()=>{
