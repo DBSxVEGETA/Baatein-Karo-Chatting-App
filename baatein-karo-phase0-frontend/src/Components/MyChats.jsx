@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { ChatState } from "../Context/ChatProvider";
+import { useAuth } from "../Context/AuthContext";
 import { toaster } from "../Components/ui/toaster";
 import axiosApi from "../config/axiosConfig";
 import { Box, Button, Stack, Text } from "@chakra-ui/react";
@@ -8,7 +9,8 @@ import ChatLoading from "./ChatLoading";
 import getSender from "../config/ChatLogics";
 
 const MyChats = () => {
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { user, loading } = useAuth();
+  const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
   const fetchChats = async () => {
     try {
@@ -27,8 +29,10 @@ const MyChats = () => {
   };
 
   useEffect(() => {
-    fetchChats();
-  }, []);
+    if(!loading && user){
+      fetchChats();
+    }
+  }, [loading, user]);
 
   // console.log(chats);
 
@@ -41,7 +45,7 @@ const MyChats = () => {
         </Button>
       </Box>
       <Box display="flex" flexDir="column" p={3} bg="#F8F8F8" w="100%" h="100%" borderRadius="lg" overflowY="hidden">
-        {chats ? (
+        {chats.length > 0 ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box

@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import { Container, Box, Text, Tabs } from "@chakra-ui/react";
-import { LuFolder, LuSquareCheck, LuUser, LuLogIn } from "react-icons/lu";
+import { LuUser, LuLogIn } from "react-icons/lu";
 import Login from "../Components/Authentication/Login.jsx";
 import SignUp from "../Components/Authentication/SignUp.jsx";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext.jsx";
 
 const HomePage = () => {
+  const {user, loading} = useAuth();
   const navigate = useNavigate();
+    
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (user) {
+    if (!loading && user) {
       navigate("/chats");
     }
-  }, [navigate]);
+  }, [loading, user, navigate]);
 
   return (
     <Container maxW="xl" centerContent>

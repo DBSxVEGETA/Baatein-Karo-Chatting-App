@@ -1,11 +1,11 @@
-import { ChatState } from "../Context/ChatProvider";
+import { useAuth } from "../Context/AuthContext.jsx";
 import NavBar from "../Components/miscellaneous/NavBar.jsx";
 import MyChats from "../Components/MyChats.jsx";
 import ChatBox from "../Components/ChatBox.jsx";
 import { Box } from "@chakra-ui/react";
 
 const ChatPage = () => {
-  const { user } = ChatState();
+  const { user } = useAuth();
   return (
     <div style={{ width: "100%" }}>
       {/* {console.log(`user: ${user}`)} */}
