@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Avatar, Box, Button, Text, Menu, Portal, ButtonGroup, IconButton, Drawer, CloseButton } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Text,
+  Menu,
+  Portal,
+  ButtonGroup,
+  IconButton,
+  Drawer,
+  CloseButton,
+} from "@chakra-ui/react";
 import { FaBell } from "react-icons/fa6";
 import { LuChevronDown } from "react-icons/lu";
 import { ChatState } from "../../Context/ChatProvider";
@@ -8,6 +19,7 @@ import ProfileDialog from "./ProfileDialog";
 import SearchDrawer from "./SearchDrawer";
 import toaster from "../ui/toaster";
 import axiosApi from "../../config/axiosConfig";
+import { useAuth } from "../../Context/AuthContext";
 
 const NavBar = () => {
   const [search, setSearch] = useState("");
@@ -16,13 +28,19 @@ const NavBar = () => {
   const [loadingChat, setLoadingChat] = useState();
   const navigate = useNavigate();
 
-  const { user } = ChatState();
+  // const { user } = ChatState();
+  const { user, logout } = useAuth();
+
+  const { setChats, setSelectedChat } = ChatState();
 
   const logoutHanlder = async () => {
     try {
-      await axiosApi.get("/user/logout");
-      localStorage.removeItem("userInfo");
-      navigate("/");
+      await logout();
+
+      setChats([]);
+      setSelectedChat(null);
+
+      navigate("/", { replace: true });
       toaster.success({
         title: "User logged out successfully",
         duration: "5000",
@@ -33,7 +51,10 @@ const NavBar = () => {
     } catch (error) {
       toaster.error({
         title: "Error Occurred",
-        description: error.response?.data?.message || error.message || "Something went wrong",
+        description:
+          error.response?.data?.message ||
+          error.message ||
+          "Something went wrong",
         duration: 5000,
         action: {
           label: "X",
@@ -44,9 +65,23 @@ const NavBar = () => {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center" mt="10px">
-      <Box display="flex" justifyContent="space-between" alignItems="center" bg="white" borderRadius="15px" w="97%" p="5px 10px 5px 10px" borderWidth="2px">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        bg="white"
+        borderRadius="15px"
+        w="97%"
+        p="5px 10px 5px 10px"
+        borderWidth="2px"
+      >
         <SearchDrawer />
-        <Text fontSize="2xl" fontFamily="work sans" color="black" fontWeight="semibold">
+        <Text
+          fontSize="2xl"
+          fontFamily="work sans"
+          color="black"
+          fontWeight="semibold"
+        >
           Baatein Karo
         </Text>
         <Box display="flex" alignItems="center">
@@ -67,11 +102,17 @@ const NavBar = () => {
               <ButtonGroup size="sm" attached>
                 <Button color="black" bg="white">
                   <Avatar.Root size="md" variant="subtle">
-                    <Avatar.Fallback name={user?.user.name} />
-                    <Avatar.Image src={user?.user.pic} />
+                    <Avatar.Fallback name={user?.name} />
+                    <Avatar.Image src={user?.pic} />
                   </Avatar.Root>
                 </Button>
-                <IconButton variant="ghost" color="black" borderRadius="15px" bg="white" _hover={{ bg: "#9a9bfc" }}>
+                <IconButton
+                  variant="ghost"
+                  color="black"
+                  borderRadius="15px"
+                  bg="white"
+                  _hover={{ bg: "#9a9bfc" }}
+                >
                   <LuChevronDown />
                 </IconButton>
               </ButtonGroup>
@@ -81,7 +122,12 @@ const NavBar = () => {
                 <ProfileDialog />
                 <Menu.Separator />
                 <Menu.Item value="logout" onClick={logoutHanlder}>
-                  <Button variant="ghost" w="100%" color="fg.error" _hover={{ bg: "bg.error", color: "fg.error" }}>
+                  <Button
+                    variant="ghost"
+                    w="100%"
+                    color="fg.error"
+                    _hover={{ bg: "bg.error", color: "fg.error" }}
+                  >
                     Logout
                   </Button>
                 </Menu.Item>
